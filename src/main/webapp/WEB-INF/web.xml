@@ -3,10 +3,14 @@
     <servlet>
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>pl.sda.web.jsp.NewServlet</servlet-class>
+        <init-param>
+            <param-name>param1</param-name>
+            <param-value>wartość</param-value>
+        </init-param>        
     </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
-        <url-pattern>/NewServlet</url-pattern>
+        <url-pattern>/*</url-pattern>     
     </servlet-mapping>
     <session-config>
         <session-timeout>
