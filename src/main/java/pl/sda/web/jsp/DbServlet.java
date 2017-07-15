@@ -7,6 +7,7 @@ package pl.sda.web.jsp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +42,7 @@ public class DbServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DbServlet</title>");            
+            out.println("<title>Servlet DbServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<form action='/servlet/DbServlet' method='post'><input type='text'/><input type='submit' value='Ok'/></form>");
@@ -86,23 +87,32 @@ public class DbServlet extends HttpServlet {
         try {
             DBConnectionManager connectionManager = new DBConnectionManager(dbURL, user, pwd);
             ctx.setAttribute("DBConnection", connectionManager.getConnection());
-            System.out.println("DB Connection initialized successfully.");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-          
-        try (PrintWriter out = response.getWriter()) {            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DbServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h4><a href='/servlet/DbServlet'>Powrót</a></h4>");
-            out.println("</body>");
-            out.println("</html>");
+            Connection con = (Connection) getServletContext().getAttribute("DBConnection");
+            java.sql.PreparedStatement ps = null;
+            try {
+                ps = con.prepareStatement("insert into Users(name) values (?)");
+                ps.setString(1, request.getParameter("name"));
+
+                ps.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet DbServlet</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h4><a href='/servlet/DbServlet'>Powrót</a></h4>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DbServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DbServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
