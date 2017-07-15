@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,6 +47,14 @@ public class NewServlet extends HttpServlet {
             out.println("<h1>Wartośc dla param1 = " + getInitParameter("param1") + "</h1>");
             out.println("<h3>wersja aplikacji: " + getServletContext().getInitParameter("version") + "</h3>");
             out.println("<a href='/servlet?param1=wartosc1&param2=wartosc2'>trudne sprawy</a>");
+            HttpSession session = request.getSession();
+            if (session.isNew()) {
+                session.setAttribute("licznik", 1);               
+            }else {
+                Integer counter = Integer.valueOf(session.getAttribute("licznik").toString());
+                session.setAttribute("licznik", ++counter);
+            }
+            out.println("<h5>Licznik: "+session.getAttribute("licznik")+"</h5>");
             out.println("</body>");
             out.println("</html>");
         }
