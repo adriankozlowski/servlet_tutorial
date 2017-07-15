@@ -7,6 +7,10 @@ package pl.sda.web.jsp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,6 +76,23 @@ public class DbServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ServletContext ctx = getServletContext();
+
+        //initialize DB Connection
+        String dbURL = ctx.getInitParameter("dbURL");
+        String user = ctx.getInitParameter("dbUser");
+        String pwd = ctx.getInitParameter("dbPassword");
+
+        try {
+            DBConnectionManager connectionManager = new DBConnectionManager(dbURL, user, pwd);
+            ctx.setAttribute("DBConnection", connectionManager.getConnection());
+            System.out.println("DB Connection initialized successfully.");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+          
         try (PrintWriter out = response.getWriter()) {            
             out.println("<!DOCTYPE html>");
             out.println("<html>");
