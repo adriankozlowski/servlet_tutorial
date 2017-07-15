@@ -7,6 +7,8 @@ package pl.sda.web.jsp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +39,13 @@ public class NewServlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet NewServlet</title>");            
             out.println("</head>");
-            out.println("<body>");
+            out.println("<body>");            
+            if(request.getParameter("param1") != null && request.getParameter("param2") != null){
+                out.println("<h4>param1 = " + request.getParameter("param1") + "; param2 = " + request.getParameter("param2") + "</h4>");    
+            }
             out.println("<h1>Wartośc dla param1 = " + getInitParameter("param1") + "</h1>");
             out.println("<h3>wersja aplikacji: " + getServletContext().getInitParameter("version") + "</h3>");
+            out.println("<a href='/servlet?param1=wartosc1&param2=wartosc2'>trudne sprawy</a>");
             out.println("</body>");
             out.println("</html>");
         }
