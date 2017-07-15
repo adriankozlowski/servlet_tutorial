@@ -4,6 +4,18 @@
         <param-name>version</param-name>
         <param-value>v.6.6.6</param-value>
     </context-param>  
+    <context-param>
+        <param-name>dbUser</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbPassword</param-name>
+        <param-value>password</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbURL</param-name>
+        <param-value>jdbc:mysql://192.168.99.100:3306/UserDB</param-value>
+    </context-param>
     <servlet>
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>pl.sda.web.jsp.NewServlet</servlet-class>
