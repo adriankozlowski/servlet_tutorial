@@ -39,6 +39,7 @@ public class NewServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Wartośc dla param1 = " + getInitParameter("param1") + "</h1>");
+            out.println("<h3>wersja aplikacji: " + getServletContext().getInitParameter("version") + "</h3>");
             out.println("</body>");
             out.println("</html>");
         }
