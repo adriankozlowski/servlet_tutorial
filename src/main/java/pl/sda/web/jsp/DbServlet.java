@@ -40,7 +40,7 @@ public class DbServlet extends HttpServlet {
             out.println("<title>Servlet DbServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DbServlet at " + request.getContextPath() + "</h1>");
+            out.println("<form action='/servlet/DbServlet' method='post'><input type='text'/><input type='submit' value='Ok'/></form>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,7 +72,17 @@ public class DbServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DbServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h4><a href='/servlet/DbServlet'>Powrót</a></h4>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     /**
