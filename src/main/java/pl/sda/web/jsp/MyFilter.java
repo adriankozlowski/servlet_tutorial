@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -81,10 +82,10 @@ public class MyFilter implements Filter {
 	}
          */
         // For example, a filter might append something to the response.
-        /*
+        
 	PrintWriter respOut = new PrintWriter(response.getWriter());
 	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-         */
+         
     }
 
     /**
@@ -99,16 +100,19 @@ public class MyFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
+        response.setContentType("text/html;charset=UTF-8");
         if (debug) {
             log("MyFilter:doFilter()");
         }
-        
+//        gfgf
         doBeforeProcessing(request, response);
-        
+        HttpServletRequest r = (HttpServletRequest) request;
         Throwable problem = null;
         try {
+           
+            response.getWriter().println("asdf");                   
             chain.doFilter(request, response);
+            
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,
             // we still want to execute our after processing, and then

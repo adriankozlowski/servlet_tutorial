@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Map;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,7 @@ public class NewServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+//        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -47,14 +48,20 @@ public class NewServlet extends HttpServlet {
             out.println("<h1>Wartośc dla param1 = " + getInitParameter("param1") + "</h1>");
             out.println("<h3>wersja aplikacji: " + getServletContext().getInitParameter("version") + "</h3>");
             out.println("<a href='/servlet?param1=wartosc1&param2=wartosc2'>trudne sprawy</a>");
+            
             HttpSession session = request.getSession();
-            if (session.isNew()) {
-                session.setAttribute("licznik", 1);               
-            }else {
-                Integer counter = Integer.valueOf(session.getAttribute("licznik").toString());
-                session.setAttribute("licznik", ++counter);
+//           
+
+            Object attribute = session.getAttribute("licznik");
+            Integer counter = null;
+            if(attribute !=null){                
+                counter = Integer.valueOf(attribute.toString());
             }
-            out.println("<h5>Licznik: "+session.getAttribute("licznik")+"</h5>");
+            if(counter== null){
+                counter = 0;
+            }
+            session.setAttribute("licznik", ++counter);
+            out.println("<h5>Licznik: "+session.getAttribute("licznik")+"</h5>");            
             out.println("</body>");
             out.println("</html>");
         }

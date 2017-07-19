@@ -45,7 +45,10 @@ public class DbServlet extends HttpServlet {
             out.println("<title>Servlet DbServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<form action='/servlet/DbServlet' method='post'><input type='text'/><input type='submit' value='Ok'/></form>");
+            out.println("<form action='/servlet/DbServlet' method='post'>");
+            out.println("<input type='text' name='imie'/>");
+            out.println("<input type='submit' value='Ok'/>");
+            out.println("</form>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -86,17 +89,19 @@ public class DbServlet extends HttpServlet {
 
         try {
             DBConnectionManager connectionManager = new DBConnectionManager(dbURL, user, pwd);
+            PrintWriter writer = response.getWriter();
+            writer.println("Czesc "+ request.getParameter("imie"));
             ctx.setAttribute("DBConnection", connectionManager.getConnection());
             Connection con = (Connection) getServletContext().getAttribute("DBConnection");
             java.sql.PreparedStatement ps = null;
-            try {
-                ps = con.prepareStatement("insert into Users(name) values (?)");
-                ps.setString(1, request.getParameter("name"));
-
-                ps.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                ps = con.prepareStatement("insert into Users(name) values (?)");
+//                ps.setString(1, request.getParameter("name"));
+//
+//                ps.execute();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
 
             try (PrintWriter out = response.getWriter()) {
                 out.println("<!DOCTYPE html>");
